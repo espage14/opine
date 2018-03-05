@@ -4,8 +4,8 @@ const db = new Mongo().getDB('opine');
 db.dropDatabase();
 
 db.createCollection('opinions', {validator: {$and: [
-  {claim: {$type: string, $ne: ''}},
-  {argument: {$type: string, $ne, ''}},
+  {claim: {$type: 'string', $ne: ''}},
+  {argument: {$type: 'string', $ne, ''}},
 ]}});
 
 const pie = db.opinions.insertOne({

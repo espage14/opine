@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Opine</title>
+  </head>
+  <body class="container">
+    <h1 class="text-center display-3">Opine</h1>
+    <main id="opinions">
+      <p class="loading">Loading opinions...</p>
+    </main>
+    <form>
+      <input type="text" placeholder="What do you think?" class="form-control my-1">
+      <textarea placeholder="Why?" class="form-control my-1"></textarea>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+    // Generate an article for an opinion
+    const opinionArticle = function(opinion) {
+      return $(`
+        <article class="card my-3">
+          <div class="card-header">
+            <a href="discussion?topic=${opinion._id}">${opinion.claim}</a>
+          </div>
+          <div class="card-body">
+            <p>${opinion.argument}</p>
+          </div>
+        </article>
+      `);
+    };
+    // Load all opinions from the database
+    $.ajax({method: 'GET', url: '/opinions'})
+      .fail(() => $('#opinions .loading').text('Could not load opinions!'))
+      .done(function(opinions) {
+        $('#opinions .loading').remove();
+        $('#opinions').append(opinions.map(opinion => opinionArticle(opinion)));
+      });
+    </script>
+  </body>
+</html>
