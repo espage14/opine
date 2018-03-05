@@ -18,7 +18,7 @@ router.get('/', function(request, response, next) {
   });
 });
 
-// GEt a specific opinon
+// Get a specific opinon
 router.get('/:id', function(request, response, next) {
   const opinion = {_id: new mongodb.ObjectId(request.params.id)};
 
@@ -29,4 +29,17 @@ router.get('/:id', function(request, response, next) {
   });
 });
 
-module.exports = router; 
+// Post a new opinions
+router.post('/', function(request, repsonse, next){
+  const opinion = {
+    claim: request.body.claim,
+    argument: request.body.argument,
+  };
+
+  db.opinions.insertOne(opinion, function(error){
+    if (error) return next(error);
+    response.json(opinion);
+  })
+});
+
+module.exports = router;
