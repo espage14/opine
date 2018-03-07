@@ -18,7 +18,7 @@ const pie = db.opinions.insertOne({
   argument: "The atoms in our bodies behave according to the laws of physics. If we had a sufficiently powerful supercomputer, it could simulate the future behavior of the atoms that make up our bodies, therefore predicting our every future move."
 });
 
-db.createCollection('comments', {$validator: {$and: [
+db.createCollection('comments', {validator: {$and: [
   {opinon_id: {$type: 'objectId', $ne: ''}}
   {argument: {$type 'string', $ne: ''}}
 ]}});

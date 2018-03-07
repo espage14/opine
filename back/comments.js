@@ -20,4 +20,28 @@ router.get('/', function(request, response, next) {
   });
 });
 
+// Post a new comment
+router.post('/', function(request, response, next){
+  const comment = {
+    opinion_id: new mongodb.ObjectId(request.body.opinion_id),
+    argument: request.body.argument,
+  };
+
+  db.comments.insertOne(comment, function(error) {
+    if (error) return next(error);
+    response.json(comment);
+  });
+});
+
+// Delete a comment
+router.delete('/:id', function(request, response, next){
+  const comment = {_id: new mongodb.ObjectId(request.params.id)};
+
+  db.comments.deleteOne(comment, function(error, report){
+    if (error) return next(error);
+    response.end();
+  });
+});
+
+
 module.exports = router;
